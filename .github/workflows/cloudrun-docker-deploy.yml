@@ -40,11 +40,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |-
-          gcloud run deploy $(CLOUDRUN_SERVICE_NAME) \
-            --image asia-east1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GCP_SERVICE }}:${{ github.sha }} \
-            --region ${{ secrets.GAR_LOCATION }} \
-            --platform managed \
-            --allow-unauthenticated	gcloud run deploy ${{ secrets.GCP_SERVICE }} \
+          gcloud run deploy ${{ secrets.GCP_SERVICE }} \
             --image ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GCP_SERVICE }}:${{ github.sha }} \
             --region ${{ secrets.GAR_LOCATION }} \
             --platform managed \
