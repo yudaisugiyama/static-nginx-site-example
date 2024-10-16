@@ -1,0 +1,42 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+
+      - name: 'Docker auth'
+        run: |-
+          gcloud auth configure-docker ${{ secrets.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: 'Build and push container'
+        run: |-
+          docker build -t "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GCP_SERVICE }}:${{ github.sha }}" .
+          docker push "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GCP_SERVICE }}:${{ github.sha }}"
+
+
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud run deploy ${{ secrets.GCP_SERVICE }} \
+            --image ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GCP_SERVICE }}:${{ github.sha }} \
+            --region ${{ secrets.GAR_LOCATION }} \
+            --platform managed \
+            --allow-unauthenticated
