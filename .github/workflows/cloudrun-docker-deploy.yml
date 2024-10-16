@@ -35,7 +35,7 @@ jobs:
       - name: 'Build and push container'
         run: |-
           docker build -t "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GAR_SERVICE }}:${{ github.sha }}" .
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GAR_SERVICE }}:${{ github.sha }}"
+          docker push "${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/${{ secrets.GAR_SERVICE }}:${{ github.sha }}"
 
 
       # - name: 'Build and push container'
