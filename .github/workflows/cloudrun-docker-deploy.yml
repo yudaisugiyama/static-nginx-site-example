@@ -3,7 +3,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   deploy:
@@ -11,11 +11,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
 
       - name: Google Auth
         id: auth
