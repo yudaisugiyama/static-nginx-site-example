@@ -23,15 +23,11 @@
     ```zsh
     git checkout develop
     git pull origin develop
-    git checkout -b feature/your-feature-name
     ```
-
 2. 開発が完了したら、`develop` ブランチへのプルリクエストを作成します。
-
 3. コードレビューを経て、問題がなければ `develop` ブランチにマージされます。
-
 4. `develop` ブランチの安定版が確認された後、`main` ブランチにプルリクエストを作成して本番リリースを行います。
 
 ## SEO対策ドキュメント
-より詳細なSEOガイドラインについては、Googleの公式ガイドを参照してください。  
+より詳細なSEOガイドラインについては、Googleの公式ガイドを参照してください。
 [SEOスターターガイド](https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ja)
